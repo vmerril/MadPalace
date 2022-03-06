@@ -5,7 +5,7 @@ public class Location {
     private String description;
     private HashSet<Item> itemsPresent = new HashSet<>();
     private Character charactersPresent;
-    private HashMap<Commands, String> exits = new HashMap<>();
+    private HashMap<Command, String> exits = new HashMap<>();
     public Location(String description){
         this.description = description;
         //this.itemsPresent = itemsPresent;
@@ -16,9 +16,9 @@ public class Location {
     public String getDescription() {return description;}
     public void setDescription(String description) {this.description = description;}
 
-    public HashMap<Commands, String> getExits(){return exits; }
-    public void addExits(HashMap<Commands, String> exits){
-        for(Commands key : exits.keySet()){
+    public HashMap<Command, String> getExits(){return exits; }
+    public void addExits(HashMap<Command, String> exits){
+        for(Command key : exits.keySet()){
             this.exits.put(key, exits.get(key));
         }
     }
@@ -64,7 +64,7 @@ public class Location {
 
     //public Set<String> getExits(){return this.exits;}
 
-    public boolean canExitTo(Commands exit){return exits.containsKey(exit);}
+    public boolean canExitTo(Command exit){return exits.containsKey(exit);}
 
     public String toString(){
         StringBuilder display = new StringBuilder();

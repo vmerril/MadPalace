@@ -4,7 +4,7 @@ import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
 
-public enum Commands {
+public enum Command {
     EAST(new HashSet<String>(Arrays.asList("e", "east"))),
     SOUTH(new HashSet<String>(Arrays.asList("s", "south"))),
     NORTH(new HashSet<String>(Arrays.asList("n", "north"))),
@@ -14,12 +14,13 @@ public enum Commands {
     GET(new HashSet<String>(Arrays.asList("get", "grab", "take"))),
     DROP(new HashSet<String>(Arrays.asList("drop", "set", "place", "put"))),
     INVENTORY(new HashSet<String>(Arrays.asList("inventory"))),
+    GO(new HashSet<String>(Arrays.asList("go", "goto"))),
     OTHER(new HashSet<String>(Arrays.asList("")));
 
 
     private final HashSet<String> inputValues;
 
-    Commands(HashSet<String> inputs){
+    Command(HashSet<String> inputs){
         this.inputValues = inputs;
     }
     public HashSet<String> getInputValues(){return this.inputValues;}

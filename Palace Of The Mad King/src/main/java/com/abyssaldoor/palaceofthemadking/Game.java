@@ -13,9 +13,9 @@ public class Game {
 
         while(input.hasNextLine()){
             String currentInput = input.nextLine();
-            Map<Commands, String> splitInput = runInput(currentInput);
-            Commands currentCommand = null;
-            for(Commands command : splitInput.keySet()){
+            Map<Command, String> splitInput = runInput(currentInput);
+            Command currentCommand = null;
+            for(Command command : splitInput.keySet()){
                 currentCommand = command;
                 break;
             }
@@ -35,6 +35,7 @@ public class Game {
                     System.out.println(currentLocation);
                     break;
                 case GET:
+                    // playerCharacter.getItemFrom(currentLocation,remainingArgs);
                     Item grabbedItem = currentLocation.grabItem(remainingArgs);
                     if (grabbedItem != null) {
                         playerCharacter.addToInventory(grabbedItem);
@@ -54,7 +55,7 @@ public class Game {
 
 
                 default:
-                    System.out.printf("You congit sider trying to %s, but you just can't bring yourself to do it.%n", currentInput);
+                    System.out.printf("You consider trying to %s, but you just can't bring yourself to do it.%n", currentInput);
             }
 
 
@@ -63,8 +64,8 @@ public class Game {
 
     }
 
-    public static HashMap<Commands, String> runInput(String input){
-        Map<Commands, String> returnMap = new HashMap<>();
+    public static HashMap<Command, String> runInput(String input){
+        Map<Command, String> returnMap = new HashMap<>();
         String[] totalArgs = input.split(" ");
         StringBuilder remainingArgs = new StringBuilder();
         if(totalArgs.length != 1){
@@ -74,8 +75,8 @@ public class Game {
         }
         String inputKeyword = totalArgs[0].toLowerCase();
 
-        Commands currentCommand;
-        for(Commands command: Commands.values()){
+        Command currentCommand;
+        for(Command command: Command.values()){
             if(command.getInputValues().contains(inputKeyword)){
                 currentCommand = command;
                 return new HashMap<>(Map.of(currentCommand, remainingArgs.toString()));
@@ -84,7 +85,7 @@ public class Game {
 
         }
 
-        currentCommand = Commands.OTHER;
+        currentCommand = Command.OTHER;
         return new HashMap<>(Map.of(currentCommand, remainingArgs.toString()));
     }
 

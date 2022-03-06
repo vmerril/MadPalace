@@ -15,15 +15,15 @@ public class PalaceMap {
         house = new Location("This is a house. To the NORTH you see a yard.");
         Item knife = new Item("knife", "a simple iron knife with a wooden handle.");
         Item pocketWatch = new Item("pocket watch", "a fine pocket watch made of etched brass. It ticks resolutely.");
-        addLocationToMap("house", house, new HashMap<>(Map.of(Commands.NORTH, "yard")), knife, pocketWatch);
+        addLocationToMap("house", house, new HashMap<>(Map.of(Command.NORTH, "yard")), knife, pocketWatch);
 
         yard = new Location("This is a yard. To the SOUTH you see a house.");
-        addLocationToMap("yard", yard, new HashMap<>(Map.of(Commands.SOUTH, "house")));
+        addLocationToMap("yard", yard, new HashMap<>(Map.of(Command.SOUTH, "house")));
 
 
         currentLocation = house;
     }
-    private void addLocationToMap(String mapKey, Location locationToAdd, HashMap<Commands, String> exits, Item... items){
+    private void addLocationToMap(String mapKey, Location locationToAdd, HashMap<Command, String> exits, Item... items){
 
         locationHashMap.put(mapKey, locationToAdd);
         locationToAdd.addExits(exits);
@@ -32,7 +32,7 @@ public class PalaceMap {
     }
     public Location getLocation(String mapKey){return locationHashMap.get(mapKey);}
 
-    public Location exitTo(Commands direction){
+    public Location exitTo(Command direction){
         if(currentLocation.canExitTo(direction)){
             currentLocation = locationHashMap.get(currentLocation.getExits().get(direction));
             System.out.println(currentLocation);
