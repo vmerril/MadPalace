@@ -1,44 +1,40 @@
 package com.abyssaldoor.palaceofthemadking;
 
-import java.util.Collections;
-import java.util.HashSet;
 import java.util.HashMap;
 import java.util.Map;
 
-public class PalaceMap {
-    private HashMap<String, Location> locationHashMap = new HashMap<>();
+class PalaceMap {
+    private Map<String, Location> locationHashMap = new HashMap<>();
     private Location currentLocation;
-    private Location house;
-    private Location yard;
-    PalaceMap(){
-        Location addLocation;
-        house = new Location("This is a house. To the NORTH you see a yard.");
+
+    PalaceMap() {
+        Location house = new Location("This is a house. To the NORTH you see a yard.");
+        Item chair = new Item("bolted chair", "a wooden chair that seems bolted to the floor.", false);
         Item knife = new Item("knife", "a simple iron knife with a wooden handle.");
         Item pocketWatch = new Item("pocket watch", "a fine pocket watch made of etched brass. It ticks resolutely.");
-        addLocationToMap("house", house, new HashMap<>(Map.of(Command.NORTH, "yard")), knife, pocketWatch);
+        addLocationToMap("house", house, Map.of(Command.NORTH, "yard"), chair, knife, pocketWatch);
 
-        yard = new Location("This is a yard. To the SOUTH you see a house.");
-        addLocationToMap("yard", yard, new HashMap<>(Map.of(Command.SOUTH, "house")));
-
+        Location yard = new Location("This is a yard. To the SOUTH you see a house.");
+        addLocationToMap("yard", yard, Map.of(Command.SOUTH, "house"));
 
         currentLocation = house;
     }
-    private void addLocationToMap(String mapKey, Location locationToAdd, HashMap<Command, String> exits, Item... items){
 
+    private void addLocationToMap(String mapKey, Location locationToAdd, Map<Command, String> exits, Item... items) {
         locationHashMap.put(mapKey, locationToAdd);
         locationToAdd.addExits(exits);
-        locationToAdd.addItems(items);
-
+        locationToAdd.getInventory().addItems(items);
     }
-    public Location getLocation(String mapKey){return locationHashMap.get(mapKey);}
 
-    public Location exitTo(Command direction){
+    Location getLocation(String mapKey) {return locationHashMap.get(mapKey);}
+
+    Location exitTo(Command direction){
         if(currentLocation.canExitTo(direction)){
             currentLocation = locationHashMap.get(currentLocation.getExits().get(direction));
             System.out.println(currentLocation);
-
         }
         else System.out.println("You can't go that way from here.");
+
         return currentLocation;
     }
 }

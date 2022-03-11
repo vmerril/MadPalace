@@ -1,29 +1,23 @@
 package com.abyssaldoor.palaceofthemadking;
 
-import java.util.Arrays;
-import java.util.HashSet;
+import java.util.Collections;
 import java.util.Set;
 
 public enum Command {
-    EAST(new HashSet<String>(Arrays.asList("e", "east"))),
-    SOUTH(new HashSet<String>(Arrays.asList("s", "south"))),
-    NORTH(new HashSet<String>(Arrays.asList("n", "north"))),
-    WEST(new HashSet<String>(Arrays.asList("w", "west"))),
-    STAY(new HashSet<String>(Arrays.asList("stay", "stand"))),
-    LOOK(new HashSet<String>(Arrays.asList("look", "examine", "check", "l"))),
-    GET(new HashSet<String>(Arrays.asList("get", "grab", "take"))),
-    DROP(new HashSet<String>(Arrays.asList("drop", "set", "place", "put"))),
-    INVENTORY(new HashSet<String>(Arrays.asList("inventory"))),
-    GO(new HashSet<String>(Arrays.asList("go", "goto"))),
-    OTHER(new HashSet<String>(Arrays.asList("")));
+    EAST(Set.of("e", "east")),
+    SOUTH(Set.of("s", "south")),
+    NORTH(Set.of("n", "north")),
+    WEST(Set.of("w", "west")),
+    STAY(Set.of("stay", "stand")),
+    LOOK(Set.of("look", "examine", "check", "l")),
+    GET(Set.of("get", "grab", "take")),
+    DROP(Set.of("drop", "set", "place", "put")),
+    INVENTORY(Collections.singleton("inventory")),
+    GO(Set.of("go", "goto")),
+    OTHER(Collections.emptySet());
 
+    private final Set<String> inputValues;
 
-    private final HashSet<String> inputValues;
-
-    Command(HashSet<String> inputs){
-        this.inputValues = inputs;
-    }
-    public HashSet<String> getInputValues(){return this.inputValues;}
-
-
+    Command(Set<String> inputs){this.inputValues = inputs;}
+    public Set<String> getInputValues(){return this.inputValues;}
 }

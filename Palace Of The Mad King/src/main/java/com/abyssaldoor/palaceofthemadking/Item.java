@@ -5,12 +5,13 @@ public class Item {
     private String name;
     private boolean mobile;
 
-
-
-    public Item(){}
-    public Item(String name, String description){
+    Item(String name, String description, boolean mobile){
         this.name = name;
         this.description = description;
+        this.mobile = mobile;
+    }
+    Item(String name, String description) {
+        this(name, description, true);
     }
 
     //need a string to item method.
@@ -18,9 +19,6 @@ public class Item {
     public String toString(){
         return description;
     }
-
-
-    public String getName(){return this.name;}
-    public boolean isMobile(){return this.mobile;
-    }
+    String getName(){return this.name;}
+    boolean isMobile(){return this.mobile;}
 }
