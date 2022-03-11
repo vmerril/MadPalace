@@ -1,65 +1,71 @@
 package com.abyssaldoor.palaceofthemadking;
+import java.util.Arrays;
 import java.util.HashSet;
+import java.util.Set;
 
-public interface Inventory {
-    HashSet<Item> inventory = new HashSet<>();
-    //Getters and Setters
-    default HashSet<Item> getInventory(){return this.inventory;}
+class Inventory {
+    private Set<Item> inventory = new HashSet<>();
+    private String missing, single, several, immobile;
 
-
-    default void removeItem(Item item){
-        this.inventory.remove(item);
+    Inventory(String missing, String single, String several, String immobile) {
+        this.missing = missing;
+        this.single = single;
+        this.several = several;
+        this.immobile = immobile;
     }
-    default void addItem(Item item){
-        this.inventory.add(item);
+
+    int size() { return inventory.size(); }
+
+    void removeItems(Item...items) {
+        inventory.removeAll(Arrays.asList(items));
     }
 
-
-    //the big method. Needs to reach into other inventory, remove item from the other inventory and add it to this one.
-    //Needs to confirm that it's grabbing the right item
-    default void getItemFrom(Inventory startingInventory, Item item){
-        startingInventory.removeItem(item);
-        this.inventory.add(item);
-
+    void addItems(Item...items) {
+        inventory.addAll(Arrays.asList(items));
     }
-    default void getItemFrom(Inventory startingInventory, String input){
-        // once I figure out instanceof, probably make a stringBuilder that generates the output. i.e.:
-        // sb = "You %s the %s", verb, name
-        input = input.trim();
-        int possibleItemCount = 0;
-        Item itemToMove = new Item();
+
+    void transferItem(String input, Inventory destInv) {
+        Pair<Integer, Item> match = findMatches(input.trim());
+        int numMatches = match.a;
+        Item grabbedItem = match.b;
+
+        if(numMatches <= 0) {
+            System.out.println(missing);
+        }
+        else if(numMatches > 1){
+            System.out.println(several);
+        }
+        else if(!grabbedItem.isMobile()){
+            System.out.println(String.format(immobile, grabbedItem.getName()));
+        }
+        else {
+            System.out.println(String.format(single, grabbedItem.getName()));
+            destInv.addItems(grabbedItem);
+            removeItems(grabbedItem);
+        }
+    }
+
+    private Pair<Integer, Item> findMatches(String itemName) {
+        Item grabbedItem = null;
+        int numMatches = 0;
+        for (Item item : inventory) {
+            if (item.getName().contains(itemName)) {
+                grabbedItem = item;
+                numMatches++;
+            }
+        }
+        return Pair.create(numMatches, grabbedItem);
+    }
+
+    public String toString(){
+        StringBuilder totalInventory = new StringBuilder();
+        boolean firstItem = true;
         for(Item item : inventory){
-            if(item.getName().contains(input)){
-                possibleItemCount++;
-                itemToMove = item;
-            }
+            if(firstItem) firstItem = false;
+            else totalInventory.append(",");
+            totalInventory.append(" a ");
+            totalInventory.append(item.getName());
         }
-        if(possibleItemCount <= 0){
-            System.out.printf("You don't see a %s.%n", input);
-        } else if(possibleItemCount > 1){
-            System.out.printf("Which %s do you mean?%n", input);
-        } else if(!itemToMove.isMobile()){
-            System.out.printf("You try, but the %s just won't budge.%n");
-        } else {
-            getItemFrom(startingInventory, itemToMove);
-        }
-
-
+        return totalInventory.toString();
     }
-
-    default void printInventory(){
-        boolean isFirst = true;
-        for(Item item: inventory){
-            if(isFirst) {
-                System.out.print(item.getName());
-                isFirst = false;
-                continue;
-            }
-            System.out.printf(", %s", item.getName());
-
-        }
-    }
-
-
-
 }
