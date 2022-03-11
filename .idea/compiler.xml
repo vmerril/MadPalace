@@ -9,8 +9,8 @@
         <module name="Palace Of The Mad King" />
       </profile>
     </annotationProcessing>
-    <bytecodeTargetLevel target="12">
-      <module name="Palace Of The Mad King" target="12" />
+    <bytecodeTargetLevel>
+      <module name="Palace Of The Mad King" target="11" />
     </bytecodeTargetLevel>
   </component>
 </project>
